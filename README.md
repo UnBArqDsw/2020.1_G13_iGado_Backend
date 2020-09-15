@@ -1,22 +1,18 @@
-# RepositorioTemplate
-Esse repositório é para ser utilizado pelos grupos como um template inicial, da home page do Projeto.
-Demais diretrizes sobre a organização da wiki constam no Moodle Aprender 3.
-**!! Atenção: Renomeie o seu repositório para (Ano.Semestre)_(Grupo)_(NomeDoProjeto). !!** 
+# iGado Backend
 
-**!! *Não coloque os nomes dos alunos no título do repositório*. Exemplo de título correto: 2020.1_G1_ProjetoPandora!!**
- 
- (Apague essa seção)
+Documentação disponível em nossa [Wiki](https://unbarqdsw.github.io/2020.1_G13_iGado/#/). 
 
-# NomedoProjeto
-
-**Número do Grupo**: XX<br>
+**Número da Lista**: 13<br>
 **Código da Disciplina**: FGA0208-T01<br>
 
 ## Alunos
-|Matrícula | Aluno |
-| -- | -- |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
-| xx/xxxxxx  |  xxxx xxxx xxxxx |
+|Matrícula | Aluno | Git |
+| :-: | :-- | :-- |
+| 16/0133394 | Lucas Fellipe Carvalho Moreira| [@lucasfcm9](https://github.com/lucasfcm9) | 
+| 17/0145514 | Iuri de Souza Severo Alves| [@iurisevero](https://github.com/iurisevero) | 
+| 17/0129411 | Guilherme Mendes Pereira | [@guilherme-mendes](https://github.com/guilherme-mendes) | 
+| 17/0138798 | Caio Vinícius Fernandes de Araújo | [@caiovfernandes](https://github.com/caiovfernandes) | 
+| 17/0013910 | João Pedro José Santos da Silva Guedes | [@sudjoao](https://github.com/sudjoao) | 
 
 ## Sobre 
 Descreva o seu projeto em linhas gerais. 
