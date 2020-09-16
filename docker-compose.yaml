@@ -2,10 +2,10 @@ version: '3.7'
 
 services:
 
-  users:
+  flask:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-Flask
     volumes:
       - '.:/app'
     ports:
@@ -14,3 +14,15 @@ services:
       - FLASK_APP=project/__init__.py
       - FLASK_ENV=development
       - APP_SETTINGS=project.config.DevelopmentConfig
+    depends_on: 
+      - db
+
+  db:
+    build:
+      context: ./project/db
+      dockerfile: Dockerfile-Postgres
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
