@@ -5,25 +5,25 @@ services:
   nginx:
     build:
       context: ./nginx
-      dockerfile: Dockerfile-Nginx
+      dockerfile: Dockerfile-Nginx-Prod
     restart: always
     ports:
       - 80:80
     depends_on:
       - flask
+    expose:
+      - 5000
 
   flask:
     build:
       context: .
-      dockerfile: Dockerfile-Flask
-    volumes:
-      - '.:/app'
+      dockerfile: Dockerfile-Flask-Prod
     ports:
       - 5001:5000
     environment:
-      - FLASK_ENV=development
-      - APP_SETTINGS=project.config.DevelopmentConfig
-      - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
+      - FLASK_ENV=production
+      - APP_SETTINGS=project.config.ProductionConfig
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/prod
       - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
     depends_on: 
       - db
@@ -37,3 +37,5 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    expose:
+      - 5432
