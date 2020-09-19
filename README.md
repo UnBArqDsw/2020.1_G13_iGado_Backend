@@ -21,10 +21,37 @@ Descreva o seu projeto em linhas gerais.
 Adicione 3 ou mais screenshots do projeto em termos de interface e funcionamento.
 
 ## Instalação 
-**Linguagens**: xxxxxx<br>
-**Tecnologias**: xxxxxx<br>
-Descreva os pré-requisitos para rodar o seu projeto e os comandos necessários.
-Insira um manual ou um script para auxiliar ainda mais.
+**Linguagens**: Python, utilizando o microframework Flask<br>
+**Tecnologias**: Docker, docker-compose<br>
+
+### Instalação do Docker e do Docker-compose
+Para instalar o docker e o docker-compose, tanto para Linux quanto para MacOS, basta seguir a documentação do [Docker](https://docs.docker.com/).
+* Como instalar [Docker Engine](https://docs.docker.com/engine/install/)
+* Como instalar [Docker Desktop para Mac](https://docs.docker.com/docker-for-mac/install/)
+* Como instalar [Docker Engine para Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
+* Como instalar [Docker-compose](https://docs.docker.com/compose/install/)
+
+Após instalar o docker e o docker-compose, basta entrar na pasta geral do projeto
+```
+$cd 2020.1_G13_iGado_Backend
+```
+E executar o comando
+```
+$docker-compose up --build
+```
+> Às vezes pode ser necessário executar o comando como administrador, adicionando a palavra ```sudo``` antes dele
+Após a finalização da build, a API estará rodando e pode ser testada através da rota
+```
+http://localhost/ping
+```
+Que irá retornar
+```
+{
+    "status": "success",
+    "message": "pong!"
+}
+```
+Se tudo ocorrer corretamente
 
 ## Uso 
 Explique como usar seu projeto caso haja algum passo a passo após o comando de execução.

@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-Nginx
+    restart: always
+    ports:
+      - 80:80
+    depends_on:
+      - flask
+
+  flask:
+    build:
+      context: .
+      dockerfile: Dockerfile-Flask
+    volumes:
+      - '.:/app'
+    ports:
+      - 5001:5000
+    environment:
+      - FLASK_ENV=development
+      - APP_SETTINGS=project.config.DevelopmentConfig
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/dev
+      - DATABASE_TEST_URL=postgres://postgres:postgres@db:5432/test
+    depends_on: 
+      - db
+
+  db:
+    build:
+      context: ./project/db
+      dockerfile: Dockerfile-Postgres
+    ports:
+      - 5435:5432
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
