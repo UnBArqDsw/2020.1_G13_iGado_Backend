@@ -3,7 +3,6 @@ import sys
 import unittest
 
 from project import create_app, db
-from project.api.models import Example
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -14,6 +13,7 @@ def recreate_db():
     db.drop_all()
     db.create_all()
     db.session.commit()
+    print("DB reacreated")
 
 @cli.command()
 def test():

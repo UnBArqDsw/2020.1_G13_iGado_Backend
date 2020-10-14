@@ -1,5 +1,5 @@
 
-INSERT INTO OWNER VALUES 
+INSERT INTO PROPRIETARY VALUES 
 (1, 'guimendesp12@gmail.com', 'Guilherme Mendes', 'senha'),
 (2, 'isudjoao@gmail.com', 'John Sud', 'senha5'),
 (3, 'caiovf13@gmail.com', 'Caio', 'senha4'),
