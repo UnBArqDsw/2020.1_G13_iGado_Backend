@@ -9,20 +9,29 @@ user_blueprint = Blueprint('_user', __name__)
 api = Api(user_blueprint)
 
 
-class UserResource(Resource):
-    def get(self, idUser):
-        """Get single User details"""
-        user = UserModel.query.filter_by(idUser=idUser).first()
-        response_object = {
-            'status': 'success',
-            'data': {
-                'idUser': user.idUser,
-                'fullname': user.fullname,
-                'email': user.email,
-                'password': user.password,
-                'isProprietary': user.isProprietary
+@user_blueprint.route('/users/<idUser>', methods=['GET'])
+def get_user(idUser):
+    """Get single user details"""
+    response_object = {
+        'status': 'fail',
+        'message': 'User does not exist'
+    }
+    try:
+        user = UserModel.query.filter_by(idUser=int(idUser)).first()
+        if not user:
+            return response_object, 404
+        else:
+            response_object = {
+                'status': 'success',
+                'data': {
+                    'idUser': user.idUser,
+                    'fullname': user.fullname,
+                    'email': user.email,
+                    'password': user.password,
+                    'isProprietary': user.isProprietary
+                }
             }
-        }
-        return response_object, 200
-
-api.add_resource(UserResource, '/users/<idUser>')
+            return response_object, 200
+    except ValueError:
+        return response_object, 404
+    
