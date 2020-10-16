@@ -19,11 +19,11 @@ def create_app(script_info=None):
     db.init_app(app)
 
     # register blueprints
-    from project.api.views.example import example_blueprint
+    from project.api.resources.example import example_blueprint
     app.register_blueprint(example_blueprint)
 
-    from project.api.views.proprietary import proprietary_blueprint
-    app.register_blueprint(proprietary_blueprint)
+    from project.api.resources.user import user_blueprint
+    app.register_blueprint(user_blueprint)
 
     # shell context for flask cli
     @app.shell_context_processor

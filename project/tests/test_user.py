@@ -3,20 +3,21 @@ import unittest
 
 from project import db
 from project.tests.base import BaseTestCase
-from project.api.models.proprietary import ProprietaryModel
+from project.api.models.user import UserModel
 
-class TestProprietary(BaseTestCase):
-    """Tests for the Proprietary."""
+class TestUser(BaseTestCase):
+    """Tests for the User."""
 
-    def test_single_proprietary(self):
-        """Ensure get single proprietary behaves correctly."""
-        proprietary = ProprietaryModel(fullname='michael', email='michael@mherman.org', password='123456')
-        db.session.add(proprietary)
+    def test_single_user(self):
+        """Ensure get single User behaves correctly."""
+        user = UserModel(fullname='michael', email='michael@mherman.org', password='123456', isProprietary=True)
+        db.session.add(user)
         db.session.commit()
         with self.client:
-            response = self.client.get(f'/proprietaries/{proprietary.idProprietary}')
+            response = self.client.get(f'/users/{user.idUser}')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
+            self.assertEqual(data['data']['isProprietary'], True)
             self.assertIn('michael', data['data']['fullname'])
             self.assertIn('michael@mherman.org', data['data']['email'])
             self.assertIn('123456', data['data']['password'])
