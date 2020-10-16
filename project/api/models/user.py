@@ -1,7 +1,7 @@
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
 from project import db
-# from project.api.models.work import WorkTable
 
 class UserModel(db.Model):
     __tablename__ = '_user'
@@ -10,8 +10,7 @@ class UserModel(db.Model):
     fullname = db.Column(db.String(128), nullable=False)
     password = db.Column(db.String(128), nullable=False)
     isProprietary = db.Column(db.Boolean, default=False)
-    # farms = db.relationship('FarmModel', secondary='WorkTable', lazy='subquery',
-        # backref=db.backref('_user', lazy=True))
+    # farms = relationship('FarmModel', secondary='work')
 
     def __init__(self, email, fullname, password, isProprietary):
         self.email = email
