@@ -9,20 +9,20 @@ class UserModel(db.Model):
     email = db.Column(db.String(50), nullable=False)
     fullname = db.Column(db.String(128), nullable=False)
     password = db.Column(db.String(128), nullable=False)
-    isProprietary = db.Column(db.Boolean, default=False)
+    isproprietary = db.Column(db.Boolean, default=False)
     # farms = relationship('FarmModel', secondary='work')
 
-    def __init__(self, email, fullname, password, isProprietary):
+    def __init__(self, email, fullname, password, isproprietary):
         self.email = email
         self.fullname = fullname
         self.password = password
-        self.isProprietary = isProprietary
+        self.isProprietary = isproprietary
     
     def to_json(self):
         return {
-            'idUser': self.idUser,
+            'idUser': self.iduser,
             'email': self.email,
             'fullname': self.fullname,
             'password': self.password,
-            'isProprietary': self.isProprietary
+            'isProprietary': self.isproprietary
         }
