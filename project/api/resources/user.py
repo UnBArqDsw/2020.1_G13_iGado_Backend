@@ -38,11 +38,13 @@ def get_user(idUser):
 @user_blueprint.route('/user/create', methods=['POST'])
 def create_user():
     import sys
-
-    user_data = request.get_json()
-    print(user_data['isproprietary'], file=sys.stderr)
-    user = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isProprietary=user_data['isproprietary'])
-    db.session.add(user)
-    db.session.commit()
-    return Response({ "user":user}, status=200)
+    try:
+        user_data = request.get_json()
+        print(user_data['isproprietary'], file=sys.stderr)
+        user = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isProprietary=user_data['isproprietary'])
+        db.session.add(user)
+        db.session.commit()
+        return Response({ "user":user}, status=200)
+    except Exception as error:
+        print(error)
 
