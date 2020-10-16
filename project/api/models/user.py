@@ -5,12 +5,12 @@ from project.api.models.farm import FarmModel
 
 class UserModel(db.Model):
     __tablename__ = '_user'
-    idUser = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    iduser = db.Column(db.Integer, primary_key=True, autoincrement=True)
     email = db.Column(db.String(50), nullable=False)
     fullname = db.Column(db.String(128), nullable=False)
     password = db.Column(db.String(128), nullable=False)
-    isProprietary = db.Column(db.Boolean, default=False)
-    farms = db.relationship('FarmModel', backref='_user', lazy=True)
+    isproprietary = db.Column(db.Boolean, default=False)
+    farms = db.relationship('FarmModel', backref=db.backref('_user'), lazy=True)
 
     def __init__(self, email, fullname, password, isProprietary):
         self.email = email

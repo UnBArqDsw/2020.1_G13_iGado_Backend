@@ -15,7 +15,7 @@
 -------------------------------------------------------------------
 
 CREATE TABLE _USER(
-    idUser INT NOT NULL,
+    idUser SERIAL NOT NULL,
     email VARCHAR(50) NOT NULL,
     fullName VARCHAR(100) NOT NULL,
     password VARCHAR(50) NOT NULL,
@@ -24,7 +24,7 @@ CREATE TABLE _USER(
 );
 
 CREATE TABLE FARM (
-    idFarm INT NOT NULL,
+    idFarm SERIAL NOT NULL,
     sizeFarm INT NOT NULL,
     idUser INT NOT NULL,
     CONSTRAINT FARM_PK PRIMARY KEY (idFarm),
