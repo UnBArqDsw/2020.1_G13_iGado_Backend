@@ -34,4 +34,14 @@ def get_user(idUser):
             return response_object, 200
     except ValueError:
         return response_object, 404
-    
+
+@user_blueprint.route('/users', methods=['GET'])
+def get_all_users():
+    """Get all users"""
+    response_object = {
+        'status': 'success',
+        'data': {
+            'users': [user.to_json() for user in UserModel.query.all()]
+        }
+    }
+    return response_object, 200

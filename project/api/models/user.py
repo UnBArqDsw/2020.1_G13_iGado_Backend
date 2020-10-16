@@ -17,3 +17,12 @@ class UserModel(db.Model):
         self.fullname = fullname
         self.password = password
         self.isProprietary = isProprietary
+    
+    def to_json(self):
+        return {
+            'idUser': self.idUser,
+            'email': self.email,
+            'fullname': self.fullname,
+            'password': self.password,
+            'isProprietary': self.isProprietary
+        }
