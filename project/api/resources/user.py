@@ -11,26 +11,27 @@ from flask_jwt_extended import (
 user_blueprint = Blueprint('_user', __name__)
 api = Api(user_blueprint)
 
-@user_blueprint.route('/users/<id_user>', methods=['GET'])
-def get_user(id_user):
+@user_blueprint.route('/users/<user_id>', methods=['GET'])
+def get_user(user_id):
     """Get single user details"""
     response_object = {
         'status': 'fail',
         'message': 'User does not exist'
     }
     try:
-        user = UserModel.query.filter_by(id_user=int(id_user)).first()
+        user = UserModel.query.filter_by(user_id=int(user_id)).first()
         if not user:
             return response_object, 404
         else:
             response_object = {
                 'status': 'success',
                 'data': {
-                    'id_user': user.id_user,
+                    'user_id': user.user_id,
                     'fullname': user.fullname,
                     'email': user.email,
                     'password': user.password,
                     'is_proprietary': user.is_proprietary,
+                    'farms': [farm.farm_id for farm in user.farms]
                 }
             }
             return response_object, 200

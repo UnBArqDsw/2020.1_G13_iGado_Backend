@@ -7,5 +7,5 @@ from project.api.models.farm import FarmModel
 
 class WorkModel(db.Model):
     __tablename__ = 'work'
-    id_user = db.Column(db.Integer, db.ForeignKey('_user.id_user'), nullable=False, primary_key=True)
-    id_farm = db.Column(db.Integer, db.ForeignKey('farm.id_farm'), nullable=False, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('_user.user_id'), nullable=False, primary_key=True)
+    farm_id = db.Column(db.Integer, db.ForeignKey('farm.farm_id'), nullable=False, primary_key=True)

@@ -5,7 +5,7 @@ from project import db
 
 class FarmModel(db.Model):
     __tablename__ = 'farm'
-    id_farm = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    farm_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     size_farm = db.Column(db.Integer, nullable=False)
     users = relationship('UserModel', secondary='work')
 
