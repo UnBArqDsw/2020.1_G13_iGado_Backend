@@ -10,17 +10,17 @@ class TestUser(BaseTestCase):
 
     def test_single_user(self):
         """Ensure get single User behaves correctly."""
-        user = UserModel(fullname='michael', email='michael@mherman.org', password='123456', isProprietary=True)
+        user = UserModel(fullname='michael', email='michael@mherman.org', password='123456', isproprietary=True)
         db.session.add(user)
         db.session.commit()
         with self.client:
-            response = self.client.get(f'/users/{user.idUser}')
+            response = self.client.get(f'/users/{user.iduser}')
             data = json.loads(response.data.decode())
             self.assertEqual(response.status_code, 200)
             self.assertEqual(data['data']['isProprietary'], True)
             self.assertIn('michael', data['data']['fullname'])
             self.assertIn('michael@mherman.org', data['data']['email'])
-            self.assertIn('123456', data['data']['password'])
+            self.assertTrue(data['data']['password'])
             self.assertIn('success', data['status'])
 
     def test_single_user_no_id(self):
@@ -40,6 +40,38 @@ class TestUser(BaseTestCase):
             self.assertEqual(response.status_code, 404)
             self.assertIn('User does not exist', data['message'])
             self.assertIn('fail', data['status'])
+
+    def test_password_are_random(self):
+        user_data = {
+            "fullname": "João",
+            "email": "test@test.com",
+            "password": "123456",
+            "isproprietary": False,
+        }
+        user_one = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isproprietary=user_data['isproprietary'])
+        user_two = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isproprietary=user_data['isproprietary'])
+        self.assertNotEqual(user_one.password, user_two.password)
+
+    def test_create_user(self):
+        with self.client:
+            user_data = {
+                "fullname": "João",
+                "email": "test@test.com",
+                "password": "123456",
+                "isproprietary": False,
+            }
+            response = self.client.post('/user/create', data=json.dumps(user_data), content_type='application/json',)
+            self.assertEqual(201, response.status_code)
+
+    def test_create_user_missing_paramater(self):
+        with self.client:
+            user_data = {
+                "fullname": "João",
+                "email": "test@test.com",
+                "isproprietary": False,
+            }
+            response = self.client.post('/user/create', data=json.dumps(user_data), content_type='application/json',)
+            self.assertEqual(400, response.status_code)
 
 if __name__ == '__main__':
     unittest.main()

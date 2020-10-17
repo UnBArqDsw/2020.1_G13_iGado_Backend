@@ -39,7 +39,7 @@ def get_user(idUser):
 def create_user():
     try:
         user_data = request.get_json()
-        user = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isProprietary=user_data['isproprietary'])
+        user = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isproprietary=user_data['isproprietary'])
         db.session.add(user)
         db.session.commit()
         return jsonify({"msg": "User created successfully"}), 201

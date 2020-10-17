@@ -12,8 +12,8 @@ class UserModel(db.Model):
     isproprietary = db.Column(db.Boolean, default=False)
     farms = db.relationship('FarmModel', backref=db.backref('_user'), lazy=True)
 
-    def __init__(self, email, fullname, password, isProprietary):
+    def __init__(self, email, fullname, password, isproprietary):
         self.email = email
         self.fullname = fullname
         self.password = bcrypt.generate_password_hash(password).decode()
-        self.isProprietary = isProprietary
+        self.isproprietary = isproprietary
