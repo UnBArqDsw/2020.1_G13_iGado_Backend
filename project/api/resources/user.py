@@ -1,10 +1,10 @@
 from flask import Blueprint, request, Response, jsonify, make_response
 from flask_restful import Resource, Api
 from sqlalchemy import exc
-from project import db
+from project import db, bcrypt
 from project.api.models.user import UserModel
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
+    jwt_required, create_access_token,
     get_jwt_identity
 )
 
