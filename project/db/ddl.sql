@@ -1,42 +1,26 @@
--- -------- << iGado Database >> ------------
---
--- SCRIPT DE CRIACAO (DDL)
---
--- Data Criacao ...........: 12/10/2020
--- Autor(es) ..............: Todos
--- Banco de Dados .........: XXX
--- Banco de Dados(nome) ...: iGado
---
--- Data Ultima Alteracao ..: 12/10/2020
--- => Criação do modelo físico do banco de dados com tabelas iniciais
---
--- PROJETO => 01 Base de Dados
--- => 09 Tabelas
--------------------------------------------------------------------
-
 CREATE TABLE _USER(
-    idUser SERIAL NOT NULL,
+    user_id SERIAL NOT NULL,
     email VARCHAR(50) NOT NULL,
-    fullName VARCHAR(100) NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    isProprietary BOOLEAN NOT NULL,
-    CONSTRAINT _USER_PK PRIMARY KEY(idUser)
+    fullname VARCHAR(100) NOT NULL,
+    password VARCHAR(50) NOT NULL,
+    is_proprietary BOOLEAN NOT NULL,
+    CONSTRAINT _USER_PK PRIMARY KEY (user_id)
 );
 
 CREATE TABLE FARM (
-    idFarm SERIAL NOT NULL,
-    sizeFarm INT NOT NULL,
-    idUser INT NOT NULL,
-    CONSTRAINT FARM_PK PRIMARY KEY (idFarm),
-    CONSTRAINT FARM_USER_FK FOREIGN KEY (idUser)
-    REFERENCES _USER(idUser)
+    farm_id SERIAL NOT NULL,
+    size_farm INT NOT NULL,
+    CONSTRAINT FARM_PK PRIMARY KEY (farm_id),
+    CONSTRAINT FARM_USER_FK FOREIGN KEY (user_id)
+        REFERENCES _USER(user_id)
 );
 
 CREATE TABLE work (
-    idUser INT NOT NULL,
-    idFarm INT NOT NULL,
-    CONSTRAINT work_USER_FK FOREIGN KEY (idUser)
-    REFERENCES _USER(idUser),
-    CONSTRAINT work_FARM_FK FOREIGN KEY (idFarm)
-    REFERENCES FARM(idFarm)
+    user_id INT NOT NULL,
+    farm_id INT NOT NULL,
+    CONSTRAINT work_PK PRIMARY KEY (user_id, farm_id),
+    CONSTRAINT work_USER_FK FOREIGN KEY (user_id)
+        REFERENCES _USER(user_id),
+    CONSTRAINT work_FARM_FK FOREIGN KEY (farm_id)
+        REFERENCES FARM(farm_id)
 );

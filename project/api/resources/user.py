@@ -11,27 +11,27 @@ from flask_jwt_extended import (
 user_blueprint = Blueprint('_user', __name__)
 api = Api(user_blueprint)
 
-
-@user_blueprint.route('/users/<idUser>', methods=['GET'])
-def get_user(idUser):
+@user_blueprint.route('/users/<user_id>', methods=['GET'])
+def get_user(user_id):
     """Get single user details"""
     response_object = {
         'status': 'fail',
         'message': 'User does not exist'
     }
     try:
-        user = UserModel.query.filter_by(iduser=int(idUser)).first()
+        user = UserModel.query.filter_by(user_id=int(user_id)).first()
         if not user:
             return response_object, 404
         else:
             response_object = {
                 'status': 'success',
                 'data': {
-                    'iduser': user.iduser,
+                    'user_id': user.user_id,
                     'fullname': user.fullname,
                     'email': user.email,
                     'password': user.password,
-                    'isproprietary': user.isproprietary
+                    'is_proprietary': user.is_proprietary,
+                    'farms': [farm.farm_id for farm in user.farms]
                 }
             }
             return response_object, 200
@@ -42,11 +42,11 @@ def get_user(idUser):
 @user_blueprint.route('/user/create', methods=['POST'])
 def create_user():
     user_data = request.get_json()
-    user = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isProprietary=user_data['isproprietary'])
+    user = UserModel(email=user_data['email'], fullname=user_data['fullname'], password=user_data['password'], is_proprietary=user_data['is_proprietary'])
     db.session.add(user)
     db.session.commit()
 
-    return Response({ "user":user}, status=200)
+    return Response({ "user": user}, status=200)
 
 @user_blueprint.route('/users', methods=['GET'])
 def get_all_users():
@@ -63,19 +63,16 @@ def get_all_users():
 @user_blueprint.route('/user/login', methods=['POST'])
 def user_login():
     login_data = request.get_json()
-
     try:
         user = UserModel.query.filter_by(email=login_data['email']).first()
     except:
-        return make_response(jsonify("erro: Db error!"), 404)
-    
+        return make_response(jsonify("Error: Database error!"), 404)
+
     if not user:
-        return make_response(jsonify("erro2: Db error!"), 404)
-    
-    import sys
+        return make_response(jsonify("Error: User not found!"), 404)
 
     if login_data['password'] != user.password:
-        return make_response(jsonify("erro: Incorrect Password!"), 404)
+        return make_response(jsonify("Error: Incorrect password!"), 404)
 
     access_token = create_access_token(identity=user.email)
     return make_response(jsonify(access_token), 200)
