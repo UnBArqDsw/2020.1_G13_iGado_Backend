@@ -3,7 +3,7 @@ from flask_restful import Resource, Api
 from sqlalchemy import exc
 from project import db, bcrypt
 from project.api.models.user import UserModel
-
+    
 user_blueprint = Blueprint('_user', __name__)
 api = Api(user_blueprint)
 
@@ -39,10 +39,12 @@ def get_user(idUser):
 def create_user():
     try:
         user_data = request.get_json()
-        user = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isproprietary=user_data['isproprietary'])
+        user = UserModel(email=user_data['email'],
+                         fullname=user_data['fullname'],
+                         password=user_data['password'],
+                         isproprietary=user_data['isproprietary'])
         db.session.add(user)
         db.session.commit()
         return jsonify({"msg": "User created successfully"}), 201
     except KeyError as error:
-        return jsonify({"error": "Missing parameter"}), 400
-
+        return jsonify({"error": "Missing parameter" + error}), 400
