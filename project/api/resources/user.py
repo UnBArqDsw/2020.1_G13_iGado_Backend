@@ -1,7 +1,6 @@
 from flask import Blueprint, request, Response, jsonify, make_response
-from flask_restful import Resource, Api
-from sqlalchemy import exc
-from project import db, bcrypt
+from flask_restful import Api
+from project import db
 from project.api.models.user import UserModel
 from flask_jwt_extended import (
      jwt_required, create_access_token,
@@ -10,6 +9,7 @@ from flask_jwt_extended import (
 
 user_blueprint = Blueprint('_user', __name__)
 api = Api(user_blueprint)
+
 
 @user_blueprint.route('/users/<user_id>', methods=['GET'])
 def get_user(user_id):
@@ -42,11 +42,15 @@ def get_user(user_id):
 @user_blueprint.route('/user/create', methods=['POST'])
 def create_user():
     user_data = request.get_json()
-    user = UserModel(email=user_data['email'], fullname=user_data['fullname'], password=user_data['password'], is_proprietary=user_data['is_proprietary'])
+    user = UserModel(email=user_data['email'],
+                     fullname=user_data['fullname'],
+                     password=user_data['password'],
+                     is_proprietary=user_data['is_proprietary'])
     db.session.add(user)
     db.session.commit()
 
-    return Response({ "user": user}, status=200)
+    return Response({"user": user}, status=200)
+
 
 @user_blueprint.route('/users', methods=['GET'])
 def get_all_users():
@@ -63,10 +67,7 @@ def get_all_users():
 @user_blueprint.route('/user/login', methods=['POST'])
 def user_login():
     login_data = request.get_json()
-    try:
-        user = UserModel.query.filter_by(email=login_data['email']).first()
-    except:
-        return make_response(jsonify("Error: Database error!"), 404)
+    user = UserModel.query.filter_by(email=login_data['email']).first()
 
     if not user:
         return make_response(jsonify("Error: User not found!"), 404)
@@ -76,6 +77,7 @@ def user_login():
 
     access_token = create_access_token(identity=user.email)
     return make_response(jsonify(access_token), 200)
+
 
 @user_blueprint.route('/user/test_token', methods=['GET'])
 @jwt_required

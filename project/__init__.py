@@ -8,6 +8,7 @@ from flask_bcrypt import Bcrypt
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 
+
 def create_app(script_info=None):
 
     # instantiate the app
@@ -20,7 +21,7 @@ def create_app(script_info=None):
 
     # set up extensions
     db.init_app(app)
-    
+
     # set bcrypt
     bcrypt.init_app(app)
 
