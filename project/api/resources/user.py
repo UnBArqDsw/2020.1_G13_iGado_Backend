@@ -4,8 +4,8 @@ from sqlalchemy import exc
 from project import db, bcrypt
 from project.api.models.user import UserModel
 from flask_jwt_extended import (
-    jwt_required, create_access_token,
-    get_jwt_identity
+     jwt_required, create_access_token,
+     get_jwt_identity
 )
 
 user_blueprint = Blueprint('_user', __name__)
