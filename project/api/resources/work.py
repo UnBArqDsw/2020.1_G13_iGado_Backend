@@ -3,10 +3,10 @@ from flask_restful import Resource, Api
 from sqlalchemy import exc
 
 from project import db
-from project.api.models import Example
+from project.api.models.work import WorkModel
 
-example_blueprint = Blueprint('example', __name__)
-api = Api(example_blueprint)
+work_blueprint = Blueprint('work', __name__)
+api = Api(work_blueprint)
 
 
 class Ping(Resource):
