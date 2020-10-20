@@ -1,7 +1,8 @@
-from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
 from project import db
+from project.api.models.work import WorkModel
+
 
 class FarmModel(db.Model):
     __tablename__ = 'farm'
