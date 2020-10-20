@@ -2,7 +2,7 @@ CREATE TABLE _USER(
     user_id SERIAL NOT NULL,
     email VARCHAR(50) NOT NULL,
     fullname VARCHAR(100) NOT NULL,
-    password VARCHAR(50) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     is_proprietary BOOLEAN NOT NULL,
     CONSTRAINT _USER_PK PRIMARY KEY (user_id)
 );

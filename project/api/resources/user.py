@@ -1,6 +1,6 @@
 from flask import Blueprint, request, Response, jsonify, make_response
 from flask_restful import Api
-from project import db
+from project import db, bcrypt
 from project.api.models.user import UserModel
 from flask_jwt_extended import (
      jwt_required, create_access_token,
@@ -72,7 +72,7 @@ def user_login():
     if not user:
         return make_response(jsonify("Error: User not found!"), 404)
 
-    if login_data['password'] != user.password:
+    if not bcrypt.check_password_hash(user.password, login_data['password']):
         return make_response(jsonify("Error: Incorrect password!"), 404)
 
     access_token = create_access_token(identity=user.email)
