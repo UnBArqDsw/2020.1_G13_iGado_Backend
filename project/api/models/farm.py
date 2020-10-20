@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 
 from project import db
 
+
 class FarmModel(db.Model):
     __tablename__ = 'farm'
     farm_id = db.Column(db.Integer, primary_key=True, autoincrement=True)

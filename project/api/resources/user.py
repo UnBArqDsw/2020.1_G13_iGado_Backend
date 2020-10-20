@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 from sqlalchemy import exc
 from project import db, bcrypt
 from project.api.models.user import UserModel
+from project.api.models.work import WorkModel
 from flask_jwt_extended import (
     JWTManager, jwt_required, create_access_token,
     get_jwt_identity
@@ -10,6 +11,7 @@ from flask_jwt_extended import (
 
 user_blueprint = Blueprint('_user', __name__)
 api = Api(user_blueprint)
+
 
 @user_blueprint.route('/user/<user_id>', methods=['GET'])
 def get_user(user_id):
@@ -43,14 +45,25 @@ def get_user(user_id):
 def create_user():
     try:
         user_data = request.get_json()
-        user = UserModel(email=user_data['email'], fullname=user_data['fullname'],password=user_data['password'],isproprietary=user_data['isproprietary'])
+        user = UserModel(email=user_data['email'],
+                         fullname=user_data['fullname'],
+                         password=user_data['password'],
+                         is_proprietary=user_data['is_proprietary'])
         db.session.add(user)
         db.session.commit()
-        return jsonify({"msg": "User created successfully"}), 201
-    except KeyError as error:
-        return jsonify({"error": "Missing parameter"}), 400
+        if 'farm_size' in user_data:
+            farm_id = user.create_farm(user_data['farm_size'])
+        else:
+            farm_id = user_data['farm_id']
+        work = WorkModel(user_id=user.user_id, farm_id=farm_id)
+        db.session.add(work)
+        db.session.commit()
+        return jsonify({'msg': 'User created successfully'}), 201
+    except KeyError:
+        return jsonify({'error': 'Missing parameter'}), 400
 
-    return Response({ "user": user}, status=200)
+    return Response({'user': user}, status=200)
+
 
 @user_blueprint.route('/user', methods=['GET'])
 def get_all_users():
@@ -69,7 +82,7 @@ def user_login():
     login_data = request.get_json()
     try:
         user = UserModel.query.filter_by(email=login_data['email']).first()
-    except:
+    except Exception:
         return make_response(jsonify("Error: Database error!"), 404)
 
     if not user:
@@ -80,6 +93,7 @@ def user_login():
 
     access_token = create_access_token(identity=user.email)
     return make_response(jsonify(access_token), 200)
+
 
 @user_blueprint.route('/user/test_token', methods=['GET'])
 @jwt_required
