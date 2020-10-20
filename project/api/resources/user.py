@@ -11,7 +11,7 @@ from flask_jwt_extended import (
 user_blueprint = Blueprint('_user', __name__)
 api = Api(user_blueprint)
 
-@user_blueprint.route('/users/<user_id>', methods=['GET'])
+@user_blueprint.route('/user/<user_id>', methods=['GET'])
 def get_user(user_id):
     """Get single user details"""
     response_object = {
@@ -48,7 +48,7 @@ def create_user():
 
     return Response({ "user": user}, status=200)
 
-@user_blueprint.route('/users', methods=['GET'])
+@user_blueprint.route('/user', methods=['GET'])
 def get_all_users():
     """Get all users"""
     response_object = {
