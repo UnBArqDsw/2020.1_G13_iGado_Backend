@@ -51,8 +51,9 @@ def create_user():
                          is_proprietary=user_data['is_proprietary'])
         db.session.add(user)
         db.session.commit()
-        if 'farm_size' in user_data:
-            farm_id = user.create_farm(user_data['farm_size'])
+        if user_data['farm_size']:
+            farm_id = user.create_farm(farm_name=user_data['farm_name'],
+                                       farm_size=user_data['farm_size'])
         else:
             farm_id = user_data['farm_id']
         work = WorkModel(user_id=user.user_id, farm_id=farm_id)

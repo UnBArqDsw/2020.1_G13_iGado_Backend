@@ -9,6 +9,7 @@ CREATE TABLE _USER(
 
 CREATE TABLE FARM (
     farm_id SERIAL NOT NULL,
+    farm_name VARCHAR(100) NOT NULL,
     size_farm INT NOT NULL,
     CONSTRAINT FARM_PK PRIMARY KEY (farm_id)
 );

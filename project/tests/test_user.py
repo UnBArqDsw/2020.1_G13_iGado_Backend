@@ -23,7 +23,7 @@ class TestUser(BaseTestCase):
         """Ensure get single User behaves correctly."""
         user = add_user(fullname='michael', email='michael@mherman.org',
                         password='123456', is_proprietary=True)
-        farm = FarmModel(1000)
+        farm = FarmModel("abc", 1000)
         db.session.add(farm)
         db.session.commit()
         work = WorkModel(1, 1)
@@ -75,14 +75,34 @@ class TestUser(BaseTestCase):
                              is_proprietary=user_data['is_proprietary'])
         self.assertNotEqual(user_one.password, user_two.password)
 
-    def test_create_user(self):
+    def test_create_proprietary(self):
         with self.client:
             user_data = {
                 "fullname": "João",
                 "email": "test@test.com",
                 "password": "123456",
                 "is_proprietary": False,
-                "farm_size": 100
+                "farm_size": 100,
+                "farm_name": "ABC"
+            }
+            response = self.client.post('/user/create',
+                                        data=json.dumps(user_data),
+                                        content_type='application/json',)
+            self.assertEqual(201, response.status_code)
+
+    def test_create_employee(self):
+        with self.client:
+            farm = FarmModel("abc", 1000)
+            db.session.add(farm)
+            db.session.commit()
+            user_data = {
+                "fullname": "João",
+                "email": "test@test.com",
+                "password": "123456",
+                "is_proprietary": False,
+                "farm_id": farm.farm_id,
+                "farm_size": None,
+                "farm_name": None
             }
             response = self.client.post('/user/create',
                                         data=json.dumps(user_data),
@@ -107,7 +127,7 @@ class TestUser(BaseTestCase):
                  password='123456', is_proprietary=True)
         add_user(fullname='fletcher', email='fletcher@notreal.com',
                  password='123123', is_proprietary=False)
-        farm = FarmModel(1000)
+        farm = FarmModel("abc", 1000)
         db.session.add(farm)
         db.session.commit()
         work = WorkModel(1, 1)
@@ -137,4 +157,3 @@ class TestUser(BaseTestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    
