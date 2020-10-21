@@ -20,6 +20,12 @@ class UserModel(db.Model):
         self.password = bcrypt.generate_password_hash(password).decode()
         self.is_proprietary = is_proprietary
 
+    def create_farm(self, farm_size, farm_name):
+        farm = FarmModel(farm_name=farm_name, size_farm=farm_size)
+        db.session.add(farm)
+        db.session.commit()
+        return farm.farm_id
+
     def to_json(self):
         return {
             'user_id': self.user_id,
