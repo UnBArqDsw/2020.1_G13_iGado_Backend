@@ -1,14 +1,14 @@
+from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
 from project import db, bcrypt
 from project.api.models.farm import FarmModel
-from project.api.models.work import WorkModel
 
 
 class UserModel(db.Model):
     __tablename__ = '_user'
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    email = db.Column(db.String(128), nullable=False)
+    email = db.Column(db.String(50), nullable=False)
     fullname = db.Column(db.String(128), nullable=False)
     password = db.Column(db.String(255), nullable=False)
     is_proprietary = db.Column(db.Boolean, default=False)

@@ -66,7 +66,7 @@ def create_user():
     return Response({'user': user}, status=200)
 
 
-@user_blueprint.route('/user', methods=['GET'])
+@user_blueprint.route('/users', methods=['GET'])
 def get_all_users():
     """Get all users"""
     response_object = {
