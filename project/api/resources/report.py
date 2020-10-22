@@ -8,11 +8,12 @@ from project.api.models.report import ReportModel
 report_blueprint = Blueprint('ReportModel', __name__)
 api = Api(report_blueprint)
 
+import sys
 
 class Ping(Resource):
     def get(self):
-        report = ReportModel(1)
-        report.printHelloWorld()
+        report = ReportModel(2)
+        print(report.generate_header(2), file=sys.stderr)
         db.session.add(report)
         db.session.commit()
         return {

@@ -10,7 +10,9 @@ class FarmModel(db.Model):
     farm_name = db.Column(db.String(128), nullable=False)
     size_farm = db.Column(db.Integer, nullable=False)
     users = relationship('UserModel', secondary='work')
-    # reports = relationship('ReportModel', backref='farm', lazy=True)
+    reports = relationship('ReportModel', backref='farm', lazy=True)
+    # beef_cattles = relationship('BeefCattleModel', backref='farm', lazy=True)
+    # dairy_cattles = relationship('DairyCattleModel', backref='farm', lazy=True)
 
     def __init__(self, farm_name, size_farm):
         self.farm_name = farm_name
