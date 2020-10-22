@@ -1,51 +1,59 @@
-# from project import db
-# from sqlalchemy import DateTime
-# import datetime
-# from sqlalchemy.ext.declarative import AbstractConcreteBase
-# from sqlalchemy.orm import configure_mappers
-# import abc
-# from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta, declared_attr
+from project import db
+from sqlalchemy import DateTime
+import datetime
+import sys
 
-# class DeclarativeABCMeta(DeclarativeMeta, abc.ABCMeta):
-#     pass
+import abc
+from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
+from sqlalchemy.ext.declarative import AbstractConcreteBase
 
-# class ReportModel(db.Model, DeclarativeABCMeta):
-#     __tablename__ = 'report'
-#     __abstract__ = True
-#     report_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-#     date_and_hour_of_emission = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
-#     description_report = db.Column(db.Text(length=3000, convert_unicode=True))
-#     @declared_attr
-#     def farm_id(cls):
-#         return db.Column(db.Integer, db.ForeignKey('farm.farm_id'))
+from sqlalchemy.ext.declarative import as_declarative
+from sqlalchemy.ext.declarative import declared_attr
 
-#     def __init__(self, date_and_hour_of_emission, farm_id):
-#         self.date_and_hour_of_emission = date_and_hour_of_emission
-#         self.farm_id = farm_id
 
-#     def CONST_TEMPLATE_METHOD(self, user_id):
-#         self.generateHeader(user_id)
-#         self.generateFarmInfo()
-#         self.generateMetric()
-#         self.generateGraphic()
+class ReportAbstract(db.Model, metaclass=abc.ABCMeta):
+    __abstract__ = True
+
+    def CONST_TEMPLATE_METHOD(self, user_id):
+        self.generateHeader(user_id)
+        self.generateFarmInfo()
+        self.generateMetric()
+        self.generateGraphic()
     
-#     def generate_header(self, user_id):
-#         pass
-#     def generate_farm_info(self):
-#         pass
+    def generate_header(self, user_id):
+        pass
+    
+    def generate_farm_info(self):
+        pass
 
-#     @abc.abstractmethod
-#     def generate_metric(self):
-#         pass
+    @abc.abstractmethod
+    def generate_metric(self):
+        pass
 
-#     @abc.abstractmethod
-#     def generate_graphic(self):
-#         pass
+    @abc.abstractmethod
+    def generate_graphic(self):
+        pass
+
+    def printHelloWorld(self):
+        print('Hello World', file=sys.stderr)
+
+class ReportModel(ReportAbstract):
+    __tablename__ = 'report'
+    report_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    date_and_hour_of_emission = db.Column(db.DateTime, default=datetime.datetime.utcnow, nullable=False)
+    description_report = db.Column(db.Text(convert_unicode=True))
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'report'
+    }
+    # farm_id = db.Column(db.Integer, db.ForeignKey('farm.farm_id'))
+
+    def __init__(self, farm_id):
+        self.farm_id = farm_id
+    
 
 # class ReportIABCZ(ReportModel):
 #     def generate_metric(self):
 #         pass
 #     def generate_graphic(self):
 #         pass
-
-# configure_mappers()

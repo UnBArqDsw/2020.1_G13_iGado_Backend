@@ -7,11 +7,11 @@ INSERT INTO _USER VALUES
 
 
 INSERT INTO FARM VALUES
-(1, "Fazenda 1", 1000),
-(2, "Fazenda 2", 1000),
-(3, "Fazenda 3", 1000),
-(4, "Fazenda 4", 1000),
-(5, "Fazenda 5",1000);
+(1, 'Fazenda 1', 1000),
+(2, 'Fazenda 2', 1000),
+(3, 'Fazenda 3', 1000),
+(4, 'Fazenda 4', 1000),
+(5, 'Fazenda 5',1000);
 
 INSERT INTO work VALUES
 (1, 1),
