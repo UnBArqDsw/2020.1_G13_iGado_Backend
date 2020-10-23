@@ -17,7 +17,7 @@ class BovineModel(db.Model):
         self.weight_ = weight_
         self.date_of_birth = date_of_birth
         self.is_beef_cattle = is_beef_cattle
-        
+
     def to_json(self):
         return {
             'id_bovine': self.id_bovine,
