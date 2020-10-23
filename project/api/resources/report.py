@@ -13,7 +13,7 @@ import sys
 class Ping(Resource):
     def get(self):
         report = ReportModel(2)
-        print(report.generate_header(2), file=sys.stderr)
+        print(report.CONST_TEMPLATE_METHOD(2), file=sys.stderr)
         db.session.add(report)
         db.session.commit()
         return {

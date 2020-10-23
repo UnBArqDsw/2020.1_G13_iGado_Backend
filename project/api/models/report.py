@@ -22,19 +22,26 @@ class ReportAbstract(db.Model):
     report_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     date_and_hour_of_emission = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
     description_report = db.Column(db.Text(convert_unicode=True))
-
     @declared_attr
     def farm_id(cls): 
         return db.Column(db.Integer, db.ForeignKey('farm.farm_id'))
+
+    # farm = FarmModel.query.filter_by(farm_id=int(self.farm_id)).first()
 
     def __init__(self, farm_id):
         self.farm_id = farm_id
 
     def CONST_TEMPLATE_METHOD(self, user_id):
-        self.generateHeader(user_id)
-        self.generateFarmInfo()
-        self.generateMetric()
-        self.generateGraphic()
+        header = self.generate_header(user_id)
+        farm_info = self.generate_farm_info()
+        metric = self.generate_metric()
+        graphic = self.generate_graphic()
+        return {
+            'header': header,
+            'farm_info': farm_info,
+            'metric': metric,
+            'graphic': graphic
+        } 
     
     def generate_header(self, user_id):
         months = {
@@ -70,7 +77,6 @@ class ReportAbstract(db.Model):
     
     def generate_farm_info(self):
         pass
-        # farm = FarmModel.query.filter_by(farm_id=int(self.farm_id)).first()
         # pregnant_dairy_cattle_quantity, dairy_cattle_quantity = 0, 0
         # beef_cattle_quantity = len(farm.beef_cattles)
 
@@ -109,10 +115,54 @@ class ReportModel(ReportAbstract):
 
     def __init__(self, farm_id):
         self.farm_id = farm_id
-    
 
-# class ReportIABCZ(ReportModel):
-#     def generate_metric(self):
-#         pass
-#     def generate_graphic(self):
-#         pass
+    def generate_metric(self):
+        farm = FarmModel.query.filter_by(farm_id=int(self.farm_id)).first()
+        gmd = calculate_gmd(farm)
+        return {
+            'metrics': [gmd]
+        }
+
+    def generate_graphic(self):
+        pass
+
+class ReportGMD(ReportAbstract):
+    __tablename__ = 'report_gmd'
+
+    __mapper_args__ = {
+        'polymorphic_identity': 'report_gmd'
+    }
+
+    def __init__(self, farm_id):
+        self.farm_id = farm_id
+    
+    def generate_metric(self):
+        farm = FarmModel.query.filter_by(farm_id=int(self.farm_id)).first()
+        gmd = calculate_gmd(farm)
+        return {
+            'metrics': [gmd]
+        }
+        
+    def generate_graphic(self):
+        pass
+
+
+
+def calculate_gmd(farm):
+    return {
+        'abc': 'xyz'
+    }
+    # beef_cattles = [beef_cattle for beef_cattle in farm.beef_cattles]
+    # individual_gmd = []
+    # total_gmd = 0
+    # for beef_cattle in beef_cattles:
+    #     gmd = (beef_cattle.actual_weight - beef_cattle.last_weight)/(beef_cattle.actual_day_of_weighing - beef_cattle.last_day_of_weighing) 
+    #     individual_gmd.append(gmd)
+    #     total_gmd+=gmd
+    # total_gmd = total_gmd/len(total_gmd)
+    # return {
+    #     'beef_cattle_id': [beef_cattle.id for beef_cattle in beef_cattles],
+    #     'beef_cattle_name': [beef_cattle.name for beef_cattle in beef_cattles],
+    #     'beef_cattle_gmd': individual_gmd,
+    #     'total_gmd': total_gmd
+    # }
