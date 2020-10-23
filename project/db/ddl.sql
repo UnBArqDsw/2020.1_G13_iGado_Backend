@@ -23,3 +23,16 @@ CREATE TABLE work (
     CONSTRAINT work_FARM_FK FOREIGN KEY (farm_id)
         REFERENCES FARM(farm_id)
 );
+
+
+CREATE TABLE BOVINE (
+    id_bovine SERIAL NOT NULL,
+    farm_id INT NOT NULL,
+    breed CHAR(25),
+    weight_ NUMERIC(5, 2) NOT NULL,
+    date_of_birth DATE NOT NULL,
+    is_beef_cattle BOOLEAN NOT NULL,
+    CONSTRAINT BOVINE_PK PRIMARY KEY (id_bovine),
+    CONSTRAINT BOVINE_FARM_FK FOREIGN KEY (farm_id)
+        REFERENCES FARM(farm_id)
+)
