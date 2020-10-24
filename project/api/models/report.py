@@ -77,6 +77,7 @@ class ReportAbstract(db.Model):
     
     def generate_farm_info(self):
         pass
+        # farm = FarmModel.query.filter_by(farm_id=int(self.farm_id)).first()
         # pregnant_dairy_cattle_quantity, dairy_cattle_quantity = 0, 0
         # beef_cattle_quantity = len(farm.beef_cattles)
 
@@ -106,7 +107,7 @@ class ReportAbstract(db.Model):
         pass
 
 
-class ReportModel(ReportAbstract):
+class GeneralReportModel(ReportAbstract):
     __tablename__ = 'report'
 
     __mapper_args__ = {
@@ -119,14 +120,16 @@ class ReportModel(ReportAbstract):
     def generate_metric(self):
         farm = FarmModel.query.filter_by(farm_id=int(self.farm_id)).first()
         gmd = calculate_gmd(farm)
+        heads_rate = calculate_heads_rate(farm)
+        # iabcz = calculate_iabcz(farm)
         return {
-            'metrics': [gmd]
+            'metrics': [gmd, heads_rate]
         }
 
     def generate_graphic(self):
         pass
 
-class ReportGMD(ReportAbstract):
+class ReportGMDModel(ReportAbstract):
     __tablename__ = 'report_gmd'
 
     __mapper_args__ = {
@@ -159,10 +162,24 @@ def calculate_gmd(farm):
     #     gmd = (beef_cattle.actual_weight - beef_cattle.last_weight)/(beef_cattle.actual_day_of_weighing - beef_cattle.last_day_of_weighing) 
     #     individual_gmd.append(gmd)
     #     total_gmd+=gmd
-    # total_gmd = total_gmd/len(total_gmd)
+    # total_gmd = total_gmd/len(individual_gmd)
     # return {
     #     'beef_cattle_id': [beef_cattle.id for beef_cattle in beef_cattles],
     #     'beef_cattle_name': [beef_cattle.name for beef_cattle in beef_cattles],
     #     'beef_cattle_gmd': individual_gmd,
     #     'total_gmd': total_gmd
+    # }
+
+def calculate_heads_rate(farm):
+    return {
+        'def' : 'uvw'
+    }
+    # total_cattles = 0
+    # total_cattles += len(farm.beef_cattle)
+    # total_cattles += len(farm.dairy_cattle)
+    
+    # heads_rate = total_cattles / farm.size_farm
+
+    # return {
+    #     'heads_rate': heads_rate
     # }
