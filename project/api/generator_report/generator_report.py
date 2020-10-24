@@ -1,5 +1,5 @@
-from project.api.models.report import GeneralReportModel
-from project.api.models.report import ReportGMDModel
+from project.api.models.general_report import GeneralReportModel
+from project.api.models.gmd_report import GMDReportModel
 
 
 class ReportGenerator:
@@ -18,7 +18,7 @@ def _get_report_type(type):
         raise ValueError(type)
 
 def _generate_gmd_report(farm_id, user_id):
-    report = ReportGMDModel(farm_id)
+    report = GMDReportModel(farm_id)
     return_report_gmd = report.CONST_TEMPLATE_METHOD(user_id)
     return return_report_gmd
 
