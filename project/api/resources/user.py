@@ -5,8 +5,8 @@ from project import db, bcrypt
 from project.api.models.user import UserModel
 from project.api.models.work import WorkModel
 from flask_jwt_extended import (
-    JWTManager, jwt_required, create_access_token,
-    get_jwt_identity
+     jwt_required, create_access_token,
+     get_jwt_identity
 )
 
 user_blueprint = Blueprint('_user', __name__)
@@ -66,7 +66,7 @@ def create_user():
     return Response({'user': user}, status=200)
 
 
-@user_blueprint.route('/user', methods=['GET'])
+@user_blueprint.route('/users', methods=['GET'])
 def get_all_users():
     """Get all users"""
     response_object = {
@@ -89,7 +89,7 @@ def user_login():
     if not user:
         return make_response(jsonify("Error: User not found!"), 404)
 
-    if login_data['password'] != user.password:
+    if not bcrypt.check_password_hash(user.password, login_data['password']):
         return make_response(jsonify("Error: Incorrect password!"), 404)
 
     access_token = create_access_token(identity=user.email)

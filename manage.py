@@ -15,6 +15,7 @@ def recreate_db():
     db.session.commit()
     print("DB reacreated")
 
+
 @cli.command()
 def test():
     """Runs the tests without code coverage"""
@@ -23,6 +24,7 @@ def test():
     if result.wasSuccessful():
         return 0
     sys.exit(result)
+
 
 if __name__ == '__main__':
     cli()
