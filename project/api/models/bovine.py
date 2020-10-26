@@ -31,7 +31,6 @@ class BovineModel(db.Model):
             'id_bovine': self.id_bovine,
             'farm_id': self.farm_id,
             'breed': self.breed,
-<<<<<<< HEAD
             'actual_weight': float(self.actual_weight),
             'last_weight': float(self.last_weight),
             'date_last_weight': str(self.date_last_weight),
@@ -39,9 +38,3 @@ class BovineModel(db.Model):
             'date_of_birth': str(self.date_of_birth),
             'is_beef_cattle': self.is_beef_cattle
         }
-=======
-            'weight_': float(self.weight_),
-            'date_of_birth': str(self.date_of_birth),
-            'is_beef_cattle': self.is_beef_cattle
-        }
->>>>>>> 0121ac098c7ced45ade43f8d1f287ae7c093e9b6
