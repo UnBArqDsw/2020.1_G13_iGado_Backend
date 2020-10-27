@@ -43,6 +43,9 @@ def create_app(script_info=None):
     from project.api.resources.report import report_blueprint
     app.register_blueprint(report_blueprint)
 
+    from project.api.resources.bovine import bovine_blueprint
+    app.register_blueprint(bovine_blueprint)
+
     # shell context for flask cli
     @app.shell_context_processor
     def ctx():
