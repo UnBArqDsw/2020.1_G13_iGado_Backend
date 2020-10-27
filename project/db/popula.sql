@@ -20,3 +20,11 @@ INSERT INTO work VALUES
 (4, 3),
 (5, 4),
 (5, 5);
+
+
+-- INSERT INTO BOVINE VALUES
+-- (1, 1, 'NELORE', 100.20, '2020-10-23', false),
+-- (2, 1, 'NELORE', 120.55, '2001-01-15', false),
+-- (3, 1,'ANGUS', 200.50, '2003-06-02', false),
+-- (4, 1, 'NELORE', 250.78, '1998-09-01', true),
+-- (5, 1, 'NELORE', 170.52, '1998-12-31', true )
