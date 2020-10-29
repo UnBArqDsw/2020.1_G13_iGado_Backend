@@ -6,7 +6,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the stack
-        run: docker-compose up --build
+        run: docker-compose up --build -d
       - name: Lint
         run: docker-compose exec flask flake8 project
       - name: Tests
