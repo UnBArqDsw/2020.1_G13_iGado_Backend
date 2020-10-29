@@ -1,0 +1,13 @@
+name: Docker Compose Actions Workflow
+on: push
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the stack
+        run: docker-compose up --build
+      - name: Lint
+        run: docker-compose exec flask flake8 project
+      - name: Tests
+        run: docker-compose exec flask python manage.py test
