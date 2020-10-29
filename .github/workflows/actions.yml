@@ -9,7 +9,7 @@ jobs:
         run: docker-compose -f docker-compose.yml up --build -d
       - name: Lint
         continue-on-error: true 
-        run: docker-compose exec flask flake8 project
+        run: docker-compose exec -T flask flake8 project
       - name: Tests
         continue-on-error: true 
-        run: docker-compose exec flask python manage.py test
+        run: docker-compose exec -T flask python manage.py test
