@@ -3,6 +3,7 @@ from project import db
 
 
 class DairyCattle(Bovine):
+    bovine_id = db.Column(db.Integer, db.ForeignKey('bovine.bovine_id'), primary_key=True)
     is_pregnant = db.Column(db.Boolean(), nullable=True)
     __mapper_args__ = {
         'polymorphic_identity': 'dairy_cattle'
@@ -10,7 +11,7 @@ class DairyCattle(Bovine):
 
     def init(self, farm_id, name, date_of_birth, breed, actual_weight,
              date_actual_weight, last_weight, date_last_weight, 
-             is_beef_cattle):
+             is_beef_cattle, is_pregnant):
         self.farm_id = farm_id
         self.name = name
         self.breed = breed
@@ -19,7 +20,8 @@ class DairyCattle(Bovine):
         self.last_weight = last_weight
         self.date_last_weight = date_last_weight
         self.date_of_birth = date_of_birth
-        self.is_beef_cattle = is_beef_cattle
+        self.is_beef_cattle = False
+        self.is_pregnant = is_pregnant
 
     def to_json(self):
         return {
@@ -33,4 +35,5 @@ class DairyCattle(Bovine):
             'date_last_weight': str(self.date_last_weight),
             'date_actual_weight': str(self.date_actual_weight),
             'is_beef_cattle': self.is_beef_cattle,
+            'is_pregnant': str(self.is_pregnant)
         }

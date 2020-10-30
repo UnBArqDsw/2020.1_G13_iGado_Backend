@@ -40,12 +40,12 @@ def create_bovine():
         else:
             bovine = DairyCattle(farm_id=bovine_data['farm_id'],
                                  name=bovine_data['name'],
-                                 date_of_birth=bovine_data['date_of_birth'],
                                  breed=bovine_data['breed'],
                                  actual_weight=bovine_data['actual_weight'],
                                  date_actual_weight=bovine_data['date_actual_weight'],
                                  last_weight=bovine_data['last_weight'],
                                  date_last_weight=bovine_data['date_last_weight'],
+                                 date_of_birth=bovine_data['date_of_birth'],
                                  is_beef_cattle=bovine_data['is_beef_cattle'],
                                  is_pregnant=bovine_data['is_pregnant']);
         db.session.add(bovine)
@@ -55,17 +55,17 @@ def create_bovine():
         return jsonify({'error': error}), 400
     return Response({'bovine': bovine}, status=200)
 
-# @bovine_blueprint.route('/bovine', methods=['GET'])
-# def bovine():
-#     try:
-#         beef_cattles = BeefCattle.query.all()
-#         dairy_cattles = DairyCattle.query.all()
-#     except:
-#         return jsonify({"Error": "Database error"}), 404
-#     beef_cattle_json = [BeefCattle.to_json(bovine) for bovine in beef_cattles]
-#     dairy_cattle_json = [DairyCattle.to_json(bovine) for bovine in dairy_cattles]
-#     return jsonify({'beef_cattles': beef_cattle_json,
-#                     'dairy_cattles': dairy_cattle_json}), 200
+@bovine_blueprint.route('/bovine', methods=['GET'])
+def bovine():
+    try:
+        beef_cattles = BeefCattle.query.all()
+        dairy_cattles = DairyCattle.query.all()
+    except:
+        return jsonify({"Error": "Database error"}), 404
+    beef_cattles_json = [BeefCattle.to_json(bovine) for bovine in beef_cattles]
+    dairy_cattles_json = [DairyCattle.to_json(bovine) for bovine in dairy_cattles]
+    return jsonify({'beef_cattles': beef_cattles_json,
+                    'dairy_cattles': dairy_cattles_json}), 200
 
 @bovine_blueprint.route('/bovine/<bovine_id>', methods=['GET'])
 def get_bovine(bovine_id):
@@ -75,22 +75,40 @@ def get_bovine(bovine_id):
         'message': 'Bovine does not exist'
     }
     try:
-        bovine = Bovine.query.filter_by(bovine_id=int(bovine_id)).first()
-        if not bovine:
+        beef_cattle = BeefCattle.query.filter_by(bovine_id=int(bovine_id)).first()
+        dairy_cattle = DairyCattle.query.filter_by(bovine_id=int(bovine_id)).first()
+        if not beef_cattle and not dairy_cattle:
             return response_object, 404
         else:
-            response_object = {
-                'bovine_id': bovine.bovine_id,
-                'farm_id': bovine.farm_id,
-                'name': bovine.name,
-                'date_of_birth': str(bovine.date_of_birth),
-                'breed': bovine.breed,
-                'actual_weight': float(bovine.actual_weight),
-                'last_weight': float(bovine.last_weight),
-                'date_last_weight': str(bovine.date_last_weight),
-                'date_actual_weight': str(bovine.date_actual_weight),
-                'is_beef_cattle': bovine.is_beef_cattle
-            }
-        return response_object, 200
+            if beef_cattle is not None:
+                bovine_response = {
+                    'bovine_id': beef_cattle.bovine_id,
+                    'farm_id': beef_cattle.farm_id,
+                    'name': beef_cattle.name,
+                    'date_of_birth': str(beef_cattle.date_of_birth),
+                    'breed': beef_cattle.breed,
+                    'actual_weight': float(beef_cattle.actual_weight),
+                    'last_weight': float(beef_cattle.last_weight),
+                    'date_last_weight': str(beef_cattle.date_last_weight),
+                    'date_actual_weight': str(beef_cattle.date_actual_weight),
+                    'is_beef_cattle': beef_cattle.is_beef_cattle,
+                    'genetical_enhancement': beef_cattle.genetical_enhancement,
+                }
+            else:
+                bovine_response = {
+                    'bovine_id': dairy_cattle.bovine_id,
+                    'farm_id': dairy_cattle.farm_id,
+                    'name': dairy_cattle.name,
+                    'date_of_birth': str(dairy_cattle.date_of_birth),
+                    'breed': dairy_cattle.breed,
+                    'actual_weight': float(dairy_cattle.actual_weight),
+                    'last_weight': float(dairy_cattle.last_weight),
+                    'date_last_weight': str(dairy_cattle.date_last_weight),
+                    'date_actual_weight': str(dairy_cattle.date_actual_weight),
+                    'is_beef_cattle': dairy_cattle.is_beef_cattle,
+                    'is_pregnant': dairy_cattle.is_pregnant,
+                }
+
+        return bovine_response, 200
     except ValueError:
         return response_object, 404

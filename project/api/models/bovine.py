@@ -35,4 +35,14 @@ class Bovine(db.Model):
         self.is_beef_cattle = is_beef_cattle
 
     def to_json(self):
-        pass
+        return {
+            'bovine_id': self.bovine_id,
+            'farm_id': self.farm_id,
+            'breed': self.breed,
+            'actual_weight': float(self.actual_weight),
+            'last_weight': float(self.last_weight),
+            'date_last_weight': str(self.date_last_weight),
+            'date_actual_weight': str(self.date_actual_weight),
+            'date_of_birth': str(self.date_of_birth),
+            'is_beef_cattle': self.is_beef_cattle
+        }

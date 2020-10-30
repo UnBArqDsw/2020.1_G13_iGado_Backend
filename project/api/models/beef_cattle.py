@@ -3,6 +3,7 @@ from project import db
 
 
 class BeefCattle(Bovine):
+    bovine_id = db.Column(db.Integer, db.ForeignKey('bovine.bovine_id'), primary_key=True)
     genetical_enhancement = db.Column(db.String(50), nullable=True)
     __mapper_args__ = {
         'polymorphic_identity': 'beef_cattle'
@@ -34,5 +35,5 @@ class BeefCattle(Bovine):
             'date_last_weight': str(self.date_last_weight),
             'date_actual_weight': str(self.date_actual_weight),
             'is_beef_cattle': self.is_beef_cattle,
-            'genetical_enhancement': genetical_enhancement
+            'genetical_enhancement': self.genetical_enhancement
         }
