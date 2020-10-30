@@ -6,10 +6,7 @@ from sqlalchemy.sql import func
 from project.api.models.farm import FarmModel
 
 
-class BovineAbstract(db.Model):
-    __abstract__ = True
-    __metaclass__ = abc.ABCMeta
-
+class Bovine(db.Model):
     bovine_id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(150), nullable=True)
     date_of_birth = db.Column(db.Date(), nullable=False)
@@ -18,11 +15,13 @@ class BovineAbstract(db.Model):
     date_actual_weight = db.Column(db.Date(), nullable=False)
     last_weight = db.Column(db.Numeric(5, 2), nullable=True)
     date_last_weight = db.Column(db.Date(), nullable=True)
-    is_beef_cattle = db.Column(db.Boolean(), nullable=False)
+    is_beef_cattle = db.Column(db.Boolean(), nullable=True)
+    farm_id = db.Column(db.Integer, db.ForeignKey('farm.farm_id'))
 
-    @declared_attr
-    def farm_id(cls): 
-        return db.Column(db.Integer, db.ForeignKey('farm.farm_id'))
+    __mapper_args__ = {
+        'polymorphic_identity': 'bovine'
+
+    }
 
     def init(self, farm_id, name, date_of_birth, breed, actual_weight, date_actual_weight, last_weight, date_last_weight, is_beef_cattle):
         self.farm_id = farm_id
@@ -34,3 +33,6 @@ class BovineAbstract(db.Model):
         self.date_last_weight = date_last_weight
         self.date_of_birth = date_of_birth
         self.is_beef_cattle = is_beef_cattle
+
+    def to_json(self):
+        pass
