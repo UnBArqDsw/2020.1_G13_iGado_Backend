@@ -20,7 +20,7 @@ class DairyCattle(Bovine):
         self.last_weight = last_weight
         self.date_last_weight = date_last_weight
         self.date_of_birth = date_of_birth
-        self.is_beef_cattle = False
+        self.is_beef_cattle = is_beef_cattle
         self.is_pregnant = is_pregnant
 
     def to_json(self):
@@ -35,5 +35,5 @@ class DairyCattle(Bovine):
             'date_last_weight': str(self.date_last_weight),
             'date_actual_weight': str(self.date_actual_weight),
             'is_beef_cattle': self.is_beef_cattle,
-            'is_pregnant': str(self.is_pregnant)
+            'is_pregnant': self.is_pregnant
         }
