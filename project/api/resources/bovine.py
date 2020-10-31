@@ -32,9 +32,6 @@ def create_bovine():
                                 date_of_birth=bovine_data['date_of_birth'],
                                 breed=bovine_data['breed'],
                                 actual_weight=bovine_data['actual_weight'],
-                                date_actual_weight=bovine_data['date_actual_weight'],
-                                last_weight=bovine_data['last_weight'],
-                                date_last_weight=bovine_data['date_last_weight'],
                                 is_beef_cattle=bovine_data['is_beef_cattle'],
                                 genetical_enhancement=bovine_data['genetical_enhancement']);
         else:
@@ -42,9 +39,6 @@ def create_bovine():
                                  name=bovine_data['name'],
                                  breed=bovine_data['breed'],
                                  actual_weight=bovine_data['actual_weight'],
-                                 date_actual_weight=bovine_data['date_actual_weight'],
-                                 last_weight=bovine_data['last_weight'],
-                                 date_last_weight=bovine_data['date_last_weight'],
                                  date_of_birth=bovine_data['date_of_birth'],
                                  is_beef_cattle=bovine_data['is_beef_cattle'],
                                  is_pregnant=bovine_data['is_pregnant']);
@@ -88,9 +82,6 @@ def get_bovine(bovine_id):
                     'date_of_birth': str(beef_cattle.date_of_birth),
                     'breed': beef_cattle.breed,
                     'actual_weight': float(beef_cattle.actual_weight),
-                    'last_weight': float(beef_cattle.last_weight),
-                    'date_last_weight': str(beef_cattle.date_last_weight),
-                    'date_actual_weight': str(beef_cattle.date_actual_weight),
                     'is_beef_cattle': beef_cattle.is_beef_cattle,
                     'genetical_enhancement': beef_cattle.genetical_enhancement,
                 }
@@ -102,13 +93,9 @@ def get_bovine(bovine_id):
                     'date_of_birth': str(dairy_cattle.date_of_birth),
                     'breed': dairy_cattle.breed,
                     'actual_weight': float(dairy_cattle.actual_weight),
-                    'last_weight': float(dairy_cattle.last_weight),
-                    'date_last_weight': str(dairy_cattle.date_last_weight),
-                    'date_actual_weight': str(dairy_cattle.date_actual_weight),
                     'is_beef_cattle': dairy_cattle.is_beef_cattle,
                     'is_pregnant': dairy_cattle.is_pregnant,
                 }
-
         return bovine_response, 200
     except ValueError:
         return response_object, 404
