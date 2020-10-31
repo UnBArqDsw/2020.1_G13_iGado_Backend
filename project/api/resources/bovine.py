@@ -76,25 +76,29 @@ def get_bovine(bovine_id):
         else:
             if beef_cattle is not None:
                 bovine_response = {
-                    'bovine_id': beef_cattle.bovine_id,
-                    'farm_id': beef_cattle.farm_id,
-                    'name': beef_cattle.name,
-                    'date_of_birth': str(beef_cattle.date_of_birth),
-                    'breed': beef_cattle.breed,
-                    'actual_weight': float(beef_cattle.actual_weight),
-                    'is_beef_cattle': beef_cattle.is_beef_cattle,
-                    'genetical_enhancement': beef_cattle.genetical_enhancement,
+                    'data': {
+                        'bovine_id': beef_cattle.bovine_id,
+                        'farm_id': beef_cattle.farm_id,
+                        'name': beef_cattle.name,
+                        'date_of_birth': str(beef_cattle.date_of_birth),
+                        'breed': beef_cattle.breed,
+                        'actual_weight': float(beef_cattle.actual_weight),
+                        'is_beef_cattle': beef_cattle.is_beef_cattle,
+                        'genetical_enhancement': beef_cattle.genetical_enhancement
+                    }
                 }
             else:
                 bovine_response = {
-                    'bovine_id': dairy_cattle.bovine_id,
-                    'farm_id': dairy_cattle.farm_id,
-                    'name': dairy_cattle.name,
-                    'date_of_birth': str(dairy_cattle.date_of_birth),
-                    'breed': dairy_cattle.breed,
-                    'actual_weight': float(dairy_cattle.actual_weight),
-                    'is_beef_cattle': dairy_cattle.is_beef_cattle,
-                    'is_pregnant': dairy_cattle.is_pregnant,
+                    'data': {
+                        'bovine_id': dairy_cattle.bovine_id,
+                        'farm_id': dairy_cattle.farm_id,
+                        'name': dairy_cattle.name,
+                        'date_of_birth': str(dairy_cattle.date_of_birth),
+                        'breed': dairy_cattle.breed,
+                        'actual_weight': float(dairy_cattle.actual_weight),
+                        'is_beef_cattle': dairy_cattle.is_beef_cattle,
+                        'is_pregnant': dairy_cattle.is_pregnant,
+                    }
                 }
         return bovine_response, 200
     except ValueError:

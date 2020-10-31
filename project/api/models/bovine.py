@@ -9,7 +9,7 @@ from project.api.models.farm import FarmModel
 class Bovine(db.Model):
     bovine_id = db.Column(db.Integer(), primary_key=True, autoincrement=True)
     name = db.Column(db.String(150), nullable=True)
-    date_of_birth = db.Column(db.Date(), nullable=False)
+    date_of_birth = db.Column(db.String(15), nullable=False)
     breed = db.Column(db.String(25), nullable=True)
     actual_weight = db.Column(db.Numeric(5, 2), nullable=False)
     is_beef_cattle = db.Column(db.Boolean(), nullable=True)
