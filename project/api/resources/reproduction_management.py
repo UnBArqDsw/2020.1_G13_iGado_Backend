@@ -68,30 +68,23 @@ def update_management(reproduction_management_id):
     }
     try:
         reproduction_management_data = request.get_json()
-        reproduction_management = ReproductionManagementModel.query.filter_by(
-            reproduction_management_id=int(reproduction_management_id)).first() # .update({"insemination_period": reproduction_management.insemination_period.append(reproduction_management_data['insemination_period'])}, synchronize_session='evaluate')
-        print(type(reproduction_management))
-        print(reproduction_management)
-        # reproduction_management = table('reproduction_management')
-        # stmp = update(reproduction_management).where(reproduction_management.c.reproduction_management_id == reproduction_management_id).values(insemination_period = ["Manhã, Tarde"])
+        reproduction_management = db.session.query(ReproductionManagementModel).filter_by(
+            reproduction_management_id=int(reproduction_management_id)).first()
         if not reproduction_management:
             return response_object, 404
         else:
             print("Patch management", file=sys.stderr)
             if len(reproduction_management.insemination_period) < reproduction_management.insemination_amount:
                 print("1 if entrou", file=sys.stderr)
-                reproduction_management.insemination_period += reproduction_management_data['insemination_period']
+                insemination_period = reproduction_management.insemination_period + reproduction_management_data['insemination_period']
+                reproduction_management.insemination_period = insemination_period
 
             if len(reproduction_management.insemination_period) == reproduction_management.insemination_amount:
                 print("2 if entrou", file=sys.stderr)
                 reproduction_management.is_finished = True
-            
-            print("reproduction insemi perd data: ", reproduction_management_data['insemination_period'], file=sys.stderr)
-            print("reproduction insemi perd: ", reproduction_management, file=sys.stderr)
-        #     # db.session.add(reproduction_management)
-        ReproductionManagementModel.query.filter_by(
-            reproduction_management_id=int(reproduction_management_id)).update(reproduction_management, synchronize_session='evaluate')
-        db.session.commit()
+        
+        db.session.add(reproduction_management)
+        db.session.commit()        
         response_object = reproduction_management.to_json()
         return response_object, 200
     except ValueError:

@@ -26,7 +26,8 @@ class ReproductionManagementModel(db.Model):
             'date_and_hour_of_management': self.date_and_hour_of_management,
             'reproduction_type': self.reproduction_type,
             'bovine_id': self.bovine_id,
-            'bull_breed': self.bull_breed
+            'bull_breed': self.bull_breed,
+            'is_finished': self.is_finished
         }
         if self.bull_id:
             reproduction_management['bull_id'] = self.bull_id
