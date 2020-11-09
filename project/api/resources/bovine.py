@@ -41,7 +41,7 @@ def create_bovine():
                                  actual_weight=bovine_data['actual_weight'],
                                  date_of_birth=bovine_data['date_of_birth'],
                                  is_beef_cattle=bovine_data['is_beef_cattle'],
-                                 is_pregnant=bovine_data['is_pregnant']);
+                                 is_pregnant=bovine_data['is_pregnant'])
         db.session.add(bovine)
         db.session.commit()
         return jsonify({'msg': 'Bovine created successfully'}), 201
