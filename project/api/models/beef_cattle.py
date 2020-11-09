@@ -3,13 +3,16 @@ from project import db
 
 
 class BeefCattle(Bovine):
-    bovine_id = db.Column(db.Integer, db.ForeignKey('bovine.bovine_id'), primary_key=True)
+    bovine_id = db.Column(db.Integer, db.ForeignKey('bovine.bovine_id'),
+                          primary_key=True)
     genetical_enhancement = db.Column(db.String(50), nullable=True)
+    reproduction_managements = db.relationship('WeighingManagementModel',
+                                               backref='farm', lazy=True)
     __mapper_args__ = {
         'polymorphic_identity': 'beef_cattle'
     }
 
-    def init(self, farm_id, name, date_of_birth, breed, actual_weight, 
+    def init(self, farm_id, name, date_of_birth, breed, actual_weight,
              is_beef_cattle, genetical_enhancement):
         self.farm_id = farm_id
         self.name = name
@@ -18,7 +21,7 @@ class BeefCattle(Bovine):
         self.date_of_birth = date_of_birth
         self.is_beef_cattle = is_beef_cattle
         self.genetical_enhancement = genetical_enhancement
-    
+
     def to_json(self):
         return {
             'bovine_id': self.bovine_id,
