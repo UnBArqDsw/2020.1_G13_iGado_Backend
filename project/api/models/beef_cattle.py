@@ -14,8 +14,8 @@ class BeefCattle(Bovine):
         'polymorphic_identity': 'beef_cattle'
     }
 
-    def init(self, farm_id, name, date_of_birth, breed, actual_weight,
-             is_beef_cattle, genetical_enhancement):
+    def init(self, farm_id, name, date_of_birth, breed, actual_weight, 
+             is_beef_cattle, genetical_enhancement, batch_of_beef):
         self.farm_id = farm_id
         self.name = name
         self.breed = breed
@@ -23,8 +23,8 @@ class BeefCattle(Bovine):
         self.date_of_birth = date_of_birth
         self.is_beef_cattle = is_beef_cattle
         self.genetical_enhancement = genetical_enhancement
-        self.i
-
+        self.batch_of_beef = batch_of_beef
+    
     def to_json(self):
         return {
             'bovine_id': self.bovine_id,
@@ -34,5 +34,6 @@ class BeefCattle(Bovine):
             'breed': self.breed,
             'actual_weight': float(self.actual_weight),
             'is_beef_cattle': self.is_beef_cattle,
-            'genetical_enhancement': self.genetical_enhancement
+            'genetical_enhancement': self.genetical_enhancement,
+            'batch_of_beef': self.batch_of_beef
         }
