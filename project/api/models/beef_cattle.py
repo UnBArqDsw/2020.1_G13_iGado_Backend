@@ -1,10 +1,15 @@
 from project.api.models.bovine import Bovine
 from project import db
+from datetime import datetime
 
 
 class BeefCattle(Bovine):
-    bovine_id = db.Column(db.Integer, db.ForeignKey('bovine.bovine_id'), primary_key=True)
+    bovine_id = db.Column(db.Integer, db.ForeignKey('bovine.bovine_id'),
+                          primary_key=True)
     genetical_enhancement = db.Column(db.String(50), nullable=True)
+    date_of_actual_weighing = db.Column(db.DateTime(timezone=True), default=datetime.utcnow, nullable=False)
+    weighing_managements = db.relationship('WeighingManagementModel',
+                                               backref='farm', lazy=True)
     __mapper_args__ = {
         'polymorphic_identity': 'beef_cattle'
     }
