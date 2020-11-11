@@ -20,3 +20,13 @@ INSERT INTO work VALUES
 (4, 3),
 (5, 4),
 (5, 5);
+
+INSERT INTO BOVINE VALUES
+(1, 'Nelore', '10-25-2020', 'Nelore', 10.0, false, 1),
+(2, 'Nelore', '10-25-2020', 'Nelore', 10.0, true, 1);
+
+INSERT INTO DAIRY_CATTLE VALUES
+(1, true);
+
+INSERT INTO BEEF_CATTLE VALUES
+(2, '12345');

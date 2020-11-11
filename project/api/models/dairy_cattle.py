@@ -5,6 +5,7 @@ from project import db
 class DairyCattle(Bovine):
     bovine_id = db.Column(db.Integer, db.ForeignKey('bovine.bovine_id'), primary_key=True)
     is_pregnant = db.Column(db.Boolean(), nullable=True)
+    reproduction_managements = db.relationship('ReproductionManagementModel', backref='farm', lazy=True)
     __mapper_args__ = {
         'polymorphic_identity': 'dairy_cattle'
     }

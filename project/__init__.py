@@ -46,9 +46,10 @@ def create_app(script_info=None):
     from project.api.resources.bovine import bovine_blueprint
     app.register_blueprint(bovine_blueprint)
 
+    from project.api.resources.reproduction_management import reproduction_management_blueprint
+    app.register_blueprint(reproduction_management_blueprint)
     from project.api.resources.weighing_management import weighing_management_blueprint
     app.register_blueprint(weighing_management_blueprint)
-
 
     # shell context for flask cli
     @app.shell_context_processor
