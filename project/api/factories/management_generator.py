@@ -26,12 +26,10 @@ def _generate_weighing_management(management_data):
     beef_cattle = BeefCattle.query.filter_by(bovine_id=int(management_data['bovine_id'])).first()
     weighing_management = WeighingManagementModel(
                          date_of_old_weighing=beef_cattle.date_of_actual_weighing,
-                         date_of_actual_weighing=management_data['date_of_actual_weighing'],
                          actual_weight=management_data['actual_weight'],
                          bovine_id=management_data['bovine_id'],
                          old_weight=beef_cattle.actual_weight)
     beef_cattle.actual_weight = management_data['actual_weight']
-    beef_cattle.date_of_actual_weighing = management_data['date_of_actual_weighing']
     db.session.add(beef_cattle)
     db.session.commit()
     return weighing_management
