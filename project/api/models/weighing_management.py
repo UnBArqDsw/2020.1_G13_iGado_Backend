@@ -14,7 +14,7 @@ class WeighingManagementModel(db.Model):
                                      nullable=False)
     old_weight = db.Column(db.Numeric(5, 2), nullable=False)
     actual_weight = db.Column(db.Numeric(5, 2), nullable=False)
-    bovine_id = db.Column(db.Integer, db.ForeignKey('beef_cattle.bovine_id'))
+    bovine_id = db.Column(db.Integer, db.ForeignKey('beef_cattle.bovine_id', ondelete='CASCADE'))
 
     def __init__(self, date_of_actual_weighing, date_of_old_weighing,
                  old_weight, actual_weight, bovine_id):

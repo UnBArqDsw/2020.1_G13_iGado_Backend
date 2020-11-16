@@ -5,7 +5,7 @@ class ReproductionManagementModel(db.Model):
     __tablename__ = 'reproduction_management'
     reproduction_management_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     date_and_hour_of_management = db.Column(db.DateTime(timezone=True), nullable=False)
-    bovine_id = db.Column(db.Integer, db.ForeignKey('dairy_cattle.bovine_id'))
+    bovine_id = db.Column(db.Integer, db.ForeignKey('dairy_cattle.bovine_id', ondelete='CASCADE'))
     bull_breed = db.Column(db.String, default="", nullable=False)
     bull_id = db.Column(db.Integer, db.ForeignKey('beef_cattle.bovine_id'))
     reproduction_type = db.Column(db.String, default="natural_ride", nullable=False)
