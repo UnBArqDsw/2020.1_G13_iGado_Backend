@@ -4,7 +4,7 @@ from sqlalchemy import exc
 from project import db
 from project.api.models.general_report import GeneralReportModel
 from project.api.models.gmd_report import GMDReportModel
-from project.api.generator_report.generator_report import ReportGenerator
+from project.api.factories.report_generator import ReportGenerator
 from flask import Blueprint, request, Response, jsonify, make_response
 
 report_blueprint = Blueprint('ReportModel', __name__)
