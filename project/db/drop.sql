@@ -1,1 +1,1 @@
-DROP TABLE work, REPRODUCTION_MANAGEMENT, REPORT_GMD, REPORT, FARM, DAIRY_CATTLE, BOVINE, BEEF_CATTLE, _USER;
+DROP TABLE work, weighing_management, reproduction_management, report_gmd, report, farm, dairy_cattle, bovine, beef_cattle, _user;
