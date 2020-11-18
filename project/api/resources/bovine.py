@@ -143,3 +143,66 @@ def get_weights_mean_by_batch(batch_number):
     return jsonify({'all_bovines_weight_mean': all_bovines_weight_mean if all_bovines_weight_mean > 0 else "This batch has no bovines",
                     'beef_cattles_weight_mean': beef_cattles_weight_mean if beef_cattles_weight_mean > 0 else "This batch has no beef_cattles",
                     'dairy_cattles_weight_mean': dairy_cattles_weight_mean if dairy_cattles_weight_mean > 0 else "This batch has no dairy_cattles" }), 200
+
+
+@bovine_blueprint.route('/bovine/<bovine_id>', methods=['PATCH'])
+def update_bovine(bovine_id):
+    response_object = {
+        'status': 'fail',
+        'message': 'Bovine does not exist'
+    }
+    try:
+        bovine_data = request.get_json()
+        if bovine_data['is_beef_cattle']:
+            beef_cattle = db.session.query(BeefCattle).filter_by(bovine_id=int(bovine_id)).first()
+            if not beef_cattle:
+                return response_object, 404
+            else:
+                beef_cattle.name = bovine_data['name']
+                beef_cattle.genetical_enhancement = bovine_data['genetical_enhancement']
+                beef_cattle.breed = bovine_data['breed']
+                beef_cattle.actual_weight = bovine_data['actual_weight']
+                beef_cattle.date_of_birth = bovine_data['date_of_birth']
+                db.session.add(beef_cattle)
+                db.session.commit()        
+                response_object = beef_cattle.to_json()
+                return response_object, 200
+        else:
+            dairy_cattle = db.session.query(DairyCattle).filter_by(bovine_id=int(bovine_id)).first()
+            if not dairy_cattle:
+                return response_object, 404
+            else:
+                dairy_cattle.name = bovine_data['name']
+                dairy_cattle.is_pregnant = bovine_data['is_pregnant']
+                dairy_cattle.breed = bovine_data['breed']
+                dairy_cattle.actual_weight = float(bovine_data['actual_weight'])
+                dairy_cattle.date_of_birth = bovine_data['date_of_birth']
+                db.session.add(dairy_cattle)
+                db.session.commit()        
+                response_object = dairy_cattle.to_json()
+                return response_object, 200
+    except ValueError:
+        return response_object, 404
+
+
+@bovine_blueprint.route('/bovine/<bovine_id>', methods=['DELETE'])
+def delete_bovine(bovine_id):
+    try:
+        beef_cattle = db.session.query(BeefCattle).filter_by(bovine_id=int(bovine_id)).first()
+    except ValueError:
+        return "Bovine do not exists", 404
+    if beef_cattle is not None:
+        try:
+            db.session.query(BeefCattle).filter_by(bovine_id=int(bovine_id)).delete()
+            db.session.commit()
+            return {"message": "Bovine deleted successfully!"}, 200
+        except ValueError:
+            return "Cannot delete bovine", 404
+
+    else:
+        try:
+            db.session.query(DairyCattle).filter_by(bovine_id=int(bovine_id)).delete()
+            db.session.commit()
+            return {"message": "Bovine deleted successfully!"}, 200
+        except ValueError:
+            return "Cannot delete bovine", 404
