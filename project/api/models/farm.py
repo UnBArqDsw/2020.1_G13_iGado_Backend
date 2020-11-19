@@ -17,3 +17,11 @@ class FarmModel(db.Model):
     def __init__(self, farm_name, size_farm):
         self.farm_name = farm_name
         self.size_farm = size_farm
+    
+    def to_json(self):
+        return {
+            'farm_id': self.farm_id,
+            'farm_name': self.farm_name,
+            'size_farm': self.size_farm,
+        }
+

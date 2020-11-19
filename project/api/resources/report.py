@@ -62,50 +62,31 @@ def report_generator(farm_id):
                     "bovine_id", "batch_of_beef",
                     "actual_weight"]
 
-    # file = db.session.query(FarmModel.farm_id.label('farm_id'), BeefCattle.bovine_id.label('bovine_id'), BeefCattle.name.label('name'),
-    #                         BeefCattle.breed.label('breed'), BeefCattle.actual_weight.label('actual_weight'),
-    #                         BeefCattle.is_beef_cattle.label('is_beef_cattle'), BeefCattle.genetical_enhancement.label('genetical_enhancement')
-    #                         ).filter(FarmModel.farm_id == farm_id, BeefCattle.farm_id == farm_id).all()
     beef_cattles = BeefCattle.query.filter(BeefCattle.farm_id == farm_id).all()
     dairy_cattles = DairyCattle.query.filter(DairyCattle.farm_id == farm_id).all()
 
-    # import sys
-    # print(BeefCattle, file=sys.stderr)
-    # print(beef_cattles, file=sys.stderr)
-    beef_cattles_values = [BeefCattle.to_json(bovine) for bovine in beef_cattles]
-    # beef_cattles_keys = list(beef_cattles[0].to_json().keys())
-    # beef_cattles_values.insert(0, beef_cattles_keys)
+    beef_cattles_values = [list(BeefCattle.to_json(bovine).values()) for bovine in beef_cattles]
+    beef_cattles_keys = list(beef_cattles[0].to_json().keys())
+    beef_cattles_values.insert(0, beef_cattles_keys)
+
     dairy_cattles_values = [list(DairyCattle.to_json(bovine).values()) for bovine in dairy_cattles]
     dairy_cattles_keys = list(dairy_cattles[0].to_json().keys())
     dairy_cattles_values.insert(0, dairy_cattles_keys)
 
-    # return excel.make_response_from_tables(
-    #         db.session,
-    #         [beef_cattles_sheet],
-    #         file_type='xlsx',
-    #         file_name='general_report'
-    #     ), 200
+    farm = FarmModel.query.filter_by(farm_id=int(farm_id)).first()
+    farm_value = [list(farm.to_json().values())]
+    farm_keys = list(farm.to_json().keys())
+    farm_value.insert(0, farm_keys)
 
-    # file = db.session.query(FarmModel, Bovine).filter(FarmModel.farm_id == farm_id)
-    
-    # # column_names_2 = ['farm_id', 'bovine_id', 'name', 'breed', 'actual_weight', 'is_beef_cattle', 'genetical_enhancement']
-
-    sheet = {
+    data = {
+        'Farm': farm_value,
         'Beef Cattles': beef_cattles_values,
         'Dairy Cattles': dairy_cattles_values,
     }
-    import sys
-    print(beef_cattles_values, file=sys.stderr)
-    beef = p.get_sheet(records=beef_cattles_values)
-    # dairy = p.get_sheet(records=dairy_cattles_values)
-    # jua = p.get_book(bookdict=sheet)
-    # file = p.save_book_as( 
-    #     bookdict=sheet,
-    #     dest_file_name='general_report.xlsx'
-    # )
 
-    file = p.Sheet(beef)
-    output = make_response(file.xlsx)
+    sheet = p.get_book(bookdict=data)
+
+    output = make_response(sheet.xlsx)
     output.headers["Content-Disposition"] = "attachment; filename=export.xlsx"
     output.headers["Content-type"] = "text/xlsx"
     return output
