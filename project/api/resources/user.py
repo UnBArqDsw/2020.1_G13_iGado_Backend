@@ -51,7 +51,7 @@ def create_user():
                          is_proprietary=user_data['is_proprietary'])
         db.session.add(user)
         db.session.commit()
-        if user_data['farm_size']:
+        if 'farm_size' in user_data.keys():
             farm_id = user.create_farm(farm_name=user_data['farm_name'],
                                        farm_size=user_data['farm_size'])
         else:
@@ -60,8 +60,8 @@ def create_user():
         db.session.add(work)
         db.session.commit()
         return jsonify({'msg': 'User created successfully'}), 201
-    except KeyError:
-        return jsonify({'error': 'Missing parameter'}), 400
+    except KeyError as error:
+        return jsonify(str(error)), 400
 
     return Response({'user': user}, status=200)
 
@@ -93,7 +93,7 @@ def user_login():
         return make_response(jsonify("Error: Incorrect password!"), 404)
 
     access_token = create_access_token(identity=user.email)
-    return make_response(jsonify(access_token), 200)
+    return make_response(jsonify({'token': access_token, 'user_id':user.user_id}), 200)
 
 
 @user_blueprint.route('/user/test_token', methods=['GET'])
