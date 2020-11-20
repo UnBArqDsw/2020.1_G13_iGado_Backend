@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_jwt_extended import JWTManager
+import flask_excel as excel
 
 
 
@@ -23,9 +24,10 @@ def create_app(script_info=None):
 
     # set up extensions
     db.init_app(app)
-
+    excel.init_excel(app)
     # set bcrypt
     bcrypt.init_app(app)
+
 
     # register blueprints
     from project.api.resources.example import example_blueprint
