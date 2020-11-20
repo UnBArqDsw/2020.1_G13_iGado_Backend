@@ -64,19 +64,51 @@ def report_generator(farm_id):
 
     beef_cattles = BeefCattle.query.filter(BeefCattle.farm_id == farm_id).all()
     dairy_cattles = DairyCattle.query.filter(DairyCattle.farm_id == farm_id).all()
-
-    beef_cattles_values = [list(BeefCattle.to_json(bovine).values()) for bovine in beef_cattles]
-    beef_cattles_keys = list(beef_cattles[0].to_json().keys())
-    beef_cattles_values.insert(0, beef_cattles_keys)
-
-    dairy_cattles_values = [list(DairyCattle.to_json(bovine).values()) for bovine in dairy_cattles]
-    dairy_cattles_keys = list(dairy_cattles[0].to_json().keys())
-    dairy_cattles_values.insert(0, dairy_cattles_keys)
-
-    farm = FarmModel.query.filter_by(farm_id=int(farm_id)).first()
-    farm_value = [list(farm.to_json().values())]
-    farm_keys = list(farm.to_json().keys())
-    farm_value.insert(0, farm_keys)
+    try:
+        beef_cattles_values = [list(BeefCattle.to_json(bovine).values()) for bovine in beef_cattles]
+        beef_cattles_keys = list(beef_cattles[0].to_json().keys())
+        beef_cattles_values.insert(0, beef_cattles_keys)
+        print(beef_cattles_values, file=sys.stderr)
+    except Exception:
+        beef_cattles_values = [[
+            'bovine_id',
+            'farm_id',
+            'name',
+            'date_of_birth',
+            'breed',
+            'actual_weight' ,
+            'is_beef_cattle',
+            'genetical_enhancement',
+            'batch_of_beef'
+        ]]
+    try:
+        dairy_cattles_values = [list(DairyCattle.to_json(bovine).values()) for bovine in dairy_cattles]
+        dairy_cattles_keys = list(dairy_cattles[0].to_json().keys())
+        dairy_cattles_values.insert(0, dairy_cattles_keys)
+    except Exception:
+        dairy_cattles_values = [[
+            'bovine_id',
+            'farm_id',
+            'name',
+            'date_of_birth',
+            'breed',
+            'actual_weight',
+            'is_beef_cattle',
+            'is_pregnant',
+            'batch_of_beef'
+        ]]
+    
+    try:
+        farm = FarmModel.query.filter_by(farm_id=int(farm_id)).first()
+        farm_value = [list(farm.to_json().values())]
+        farm_keys = list(farm.to_json().keys())
+        farm_value.insert(0, farm_keys)
+    except Exception:
+            farm_value = [[
+            'farm_id',
+            'farm_name',
+            'size_farm',
+        ]]
 
     data = {
         'Farm': farm_value,
